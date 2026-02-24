@@ -4,24 +4,17 @@
 import type { ISiteConfig } from "@/types/site";
 export const SITE_CONFIG: ISiteConfig = {
   metadata: {
-    title: "basecn",
-    subTitle: "Project base",
+    title: "Nội thất Khánh Linh",
+    logoTitle: "klinh.",
+    subTitle: "",
     logo: "",
-    description:
-      "A Next.js & shadcn/ui base project for kickstarting new web application with a modern stack, essential layouts and components, and best practices",
-    keywords: [
-      "Next.js",
-      "basecn",
-      "Next.js base project",
-      "shadcn/ui",
-      "shadcn/ui base project",
-      "Next.js and shadcn/ui base project",
-    ],
+    description: "",
+    keywords: [],
     author: "daFoggo",
     author_url: "https://github.com/daFoggo",
     publisher: "daFoggo",
     publisher_url: "https://github.com/daFoggo",
-    language: "en",
+    language: "vi",
   },
   github: {
     username: "daFoggo",

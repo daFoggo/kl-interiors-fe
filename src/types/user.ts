@@ -1,6 +1,6 @@
 export interface IUser {
-  name: string;
   email: string;
-  avatar: string;
-  timezone: string;
+  full_name: string;
+  phone_number?: string;
+  avatar_url?: string;
 }

@@ -12,15 +12,13 @@ export const envConfig = createEnv({
   },
 
   client: {
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
+    NEXT_PUBLIC_BACKEND_URL: z.string().min(1),
   },
 
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     OPEN_AI_API_KEY: process.env.OPEN_AI_API_KEY,
     SELINE_TOKEN: process.env.SELINE_TOKEN,
-
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
-      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
   },
 });

@@ -1,13 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import React from "react";
-import { Portal, PortalBackdrop } from "@/components/ui/portal";
-import { Button } from "@/components/ui/button";
-import { XIcon, MenuIcon } from "lucide-react";
-import { rootNavigation } from "@/constants/root-navigation";
+import { MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
-import { HeaderSearch } from "./header-search";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Portal, PortalBackdrop } from "@/components/ui/portal";
+import { rootNavigation } from "@/constants/root-navigation";
+import { cn } from "@/lib/utils";
 import { HeaderUser } from "./header-user";
 import { HeaderUserBookmarks } from "./header-user-bookmarks";
 
@@ -43,7 +42,6 @@ export const RootHeaderMobile = () => {
             )}
             data-slot={open ? "open" : "closed"}
           >
-            <HeaderSearch className="w-full" />
             <div className="grid gap-y-2">
               {rootNavigation.map((link) => (
                 <Button
@@ -59,7 +57,7 @@ export const RootHeaderMobile = () => {
             </div>
             <div className="flex flex-col gap-4">
               <HeaderUserBookmarks className="w-full justify-start" showText />
-              <HeaderUser className="w-full justify-start" />
+              <HeaderUser className="w-full justify-start" showText />
             </div>
           </div>
         </Portal>

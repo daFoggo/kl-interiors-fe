@@ -1,4 +1,5 @@
 import ky, { type Options } from "ky";
+import { envConfig } from "@/configs/env";
 
 // Types
 export interface IApiClientOptions extends Omit<Options, "prefixUrl"> {
@@ -34,13 +35,13 @@ const getAccessToken = () => {
  * @param options - Additional ky options and custom flags
  */
 export const createApiClient = (
-  baseUrl: string,
+  baseUrl?: string,
   options: IApiClientOptions = {},
 ) => {
   const { isAuth = true, ...kyOptions } = options;
 
   return ky.create({
-    prefixUrl: baseUrl,
+    ...(baseUrl ? { prefixUrl: baseUrl } : {}),
     ...DEFAULT_OPTIONS,
     ...kyOptions,
     hooks: {
@@ -77,3 +78,5 @@ export const createApiClient = (
     },
   });
 };
+
+export const apiClient = createApiClient(envConfig.NEXT_PUBLIC_BACKEND_URL);

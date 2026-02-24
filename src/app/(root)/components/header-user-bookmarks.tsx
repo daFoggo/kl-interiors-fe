@@ -1,3 +1,5 @@
+import { Heart } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -5,8 +7,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { Heart } from "lucide-react";
-import Link from "next/link";
 
 export const HeaderUserBookmarks = ({
   className,
@@ -19,7 +19,6 @@ export const HeaderUserBookmarks = ({
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          variant="outline"
           size={showText ? "default" : "icon"}
           className={cn("gap-2", className)}
           asChild

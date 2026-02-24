@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import {
   EB_Garamond,
-  Geist,
   Geist_Mono,
   Merriweather,
   Mona_Sans,
 } from "next/font/google";
+import { headers } from "next/headers";
 import Script from "next/script";
 import NextTopLoader from "nextjs-toploader";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
@@ -50,14 +50,17 @@ export const metadata: Metadata = {
   publisher: SITE_CONFIG.metadata.publisher,
 };
 
-const RootLayout = ({
+const RootLayout = async ({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) => {
+  const headersList = await headers();
+  const acceptLanguage = headersList.get("accept-language") || "";
+  const isVietnamese = acceptLanguage.includes("vi");
   return (
     <html
-      lang="en"
+      lang={isVietnamese ? "vi" : "en"}
       suppressHydrationWarning
       className={`${monaSans.variable} ${geistMono.variable} ${ebGaramond.variable} ${merriweather.variable} antialiased`}
     >
