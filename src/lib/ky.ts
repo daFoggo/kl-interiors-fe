@@ -112,16 +112,14 @@ export const createApiClient = (
                     return ky(request);
                   }
                 } catch (_error) {
+                  // Token refresh failed — clear tokens
+                  // Auth redirect should be handled at the specific route/component level
                   removeTokens();
-                  if (typeof window !== "undefined") {
-                    window.location.href = "/auth";
-                  }
                 }
               } else {
+                // No refresh token available — clear tokens
+                // Auth redirect should be handled at the specific route/component level
                 removeTokens();
-                if (typeof window !== "undefined") {
-                  window.location.href = "/auth";
-                }
               }
             }
           }

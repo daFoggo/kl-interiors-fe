@@ -7,7 +7,6 @@ import type {
   IRefreshTokenResponse,
   ISignupPayload,
   ISignupResponse,
-  IUser,
 } from "./types";
 
 export const AUTH_ENDPOINTS = {

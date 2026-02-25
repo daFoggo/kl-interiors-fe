@@ -1,9 +1,18 @@
 "use client";
 
-import { User } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@/features/auth/hooks";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useLogout, useUser } from "@/features/auth";
 import { cn } from "@/lib/utils";
 
 export const HeaderUser = ({
@@ -14,6 +23,13 @@ export const HeaderUser = ({
   showText?: boolean;
 }) => {
   const { user, isLoading } = useUser();
+  const { logout } = useLogout();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/auth");
+  };
 
   if (isLoading) {
     return (
@@ -29,15 +45,40 @@ export const HeaderUser = ({
 
   if (user) {
     return (
-      <Button variant="secondary" className={cn("gap-2", className)}>
-        <User className="size-4" />
-        {showText && <span>{user?.full_name || user?.phone_number}</span>}
-        {!showText && (
-          <span className="sr-only">
-            {user?.full_name || user?.phone_number}
-          </span>
-        )}
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="secondary" className={cn("gap-2", className)}>
+            <User className="size-4" />
+            {showText && (
+              <span>
+                {user?.full_name || user?.email || user?.phone_number}
+              </span>
+            )}
+            {!showText && (
+              <span className="sr-only">
+                {user?.full_name || user?.email || user?.phone_number}
+              </span>
+            )}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <span>{user?.email || user?.phone_number}</span>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              className="justify-between cursor-pointer"
+              onClick={handleLogout}
+            >
+              <span>Đăng xuất</span>
+              <LogOut className="size-4" />
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   }
 
