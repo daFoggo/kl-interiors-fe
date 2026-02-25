@@ -2,6 +2,7 @@ import { apiClient } from "@/lib/ky";
 import type {
   ILoginPayload,
   ILoginResponse,
+  IMeResponse,
   IRefreshTokenPayload,
   IRefreshTokenResponse,
   ISignupPayload,
@@ -44,7 +45,8 @@ export const usersApi = {
       .then((res) => res.json());
   },
 
-  me: async (): Promise<IUser> => {
-    return await apiClient.get(AUTH_ENDPOINTS.ME).then((res) => res.json());
+  me: async (): Promise<IMeResponse> => {
+    const res = await apiClient.get(AUTH_ENDPOINTS.ME).json<IMeResponse>();
+    return res;
   },
 };

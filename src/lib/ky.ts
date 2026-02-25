@@ -16,16 +16,36 @@ const DEFAULT_OPTIONS: Options = {
   },
 };
 
-/**
- * Access Token Helper
- * Define how to retrieve your token here (localStorage, Cookies, Store, etc.)
- */
-const getAccessToken = () => {
+export const getAccessToken = () => {
   if (typeof window !== "undefined") {
-    // TODO: Change 'accessToken' to your actual key name
     return localStorage.getItem("accessToken");
   }
   return null;
+};
+
+export const getRefreshToken = () => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("refreshToken");
+  }
+  return null;
+};
+
+export const setTokens = (accessToken: string, refreshToken: string) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+  }
+};
+
+export const removeTokens = () => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+  }
+};
+
+export const checkIsAuthenticated = () => {
+  return !!getAccessToken();
 };
 
 /**
@@ -59,15 +79,50 @@ export const createApiClient = (
         ...(kyOptions.hooks?.beforeRequest ?? []),
       ],
       afterResponse: [
-        async (request, options, response) => {
+        async (request, _options, response) => {
           // 2. Global error handling
           if (!response.ok) {
             // Check for 401 Unauthorized
-            if (response.status === 401) {
-              // TODO: Handle token expiration (e.g., redirect to login, refresh token)
-              // if (typeof window !== "undefined") {
-              //   window.location.href = "/login";
-              // }
+            if (
+              response.status === 401 &&
+              !request.url.includes("auth/refresh") &&
+              !request.url.includes("auth/login")
+            ) {
+              const refreshToken = getRefreshToken();
+              if (refreshToken) {
+                try {
+                  const refreshRes = await ky
+                    .post(`${envConfig.NEXT_PUBLIC_BACKEND_URL}/auth/refresh`, {
+                      json: { refresh_token: refreshToken },
+                    })
+                    .json<{
+                      success: boolean;
+                      payload: { access_token: string; refresh_token: string };
+                    }>();
+
+                  if (refreshRes?.payload?.access_token) {
+                    setTokens(
+                      refreshRes.payload.access_token,
+                      refreshRes.payload.refresh_token,
+                    );
+                    request.headers.set(
+                      "Authorization",
+                      `Bearer ${refreshRes.payload.access_token}`,
+                    );
+                    return ky(request);
+                  }
+                } catch (_error) {
+                  removeTokens();
+                  if (typeof window !== "undefined") {
+                    window.location.href = "/auth";
+                  }
+                }
+              } else {
+                removeTokens();
+                if (typeof window !== "undefined") {
+                  window.location.href = "/auth";
+                }
+              }
             }
           }
           return response;

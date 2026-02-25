@@ -1,11 +1,12 @@
-import useSWR from "swr";
+import { useRouter } from "next/navigation";
+import useSWR, { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
-import type { IUser } from "@/types/user";
+import { removeTokens } from "@/lib/ky";
 import { AUTH_ENDPOINTS, authApi, usersApi } from "./api";
-import type { ILoginPayload, ISignupPayload } from "./types";
+import type { ILoginPayload, IMeResponse, ISignupPayload } from "./types";
 
 export const useUser = () => {
-  const { data, error, isLoading, mutate } = useSWR<IUser>(
+  const { data, error, isLoading, mutate } = useSWR<IMeResponse>(
     AUTH_ENDPOINTS.ME,
     () => usersApi.me(),
     {
@@ -15,11 +16,25 @@ export const useUser = () => {
   );
 
   return {
-    user: data,
+    user: data?.payload,
     isLoading,
-    isError: !!error,
+    isError: !!error || !data?.success,
     mutate,
+    isAuthenticated: !!data?.payload && !error && data.success,
   };
+};
+
+export const useLogout = () => {
+  const router = useRouter();
+  const { mutate } = useSWRConfig();
+
+  const logout = () => {
+    removeTokens();
+    mutate(AUTH_ENDPOINTS.ME, undefined, { revalidate: false });
+    router.push("/auth");
+  };
+
+  return { logout };
 };
 
 export const useLoginMutation = () => {

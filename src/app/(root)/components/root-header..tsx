@@ -25,7 +25,7 @@ export const RootHeader = () => {
     >
       <nav className="flex h-16 px-4 md:px-8 xl:px-16 w-full items-center justify-between gap-4">
         <div className="flex items-center gap-2 md:gap-4 justify-between">
-          <AppLogo />
+          <AppLogo type="button" />
           <div className="hidden lg:flex items-center gap-2">
             {rootNavigation.map((item) => (
               <Link key={item.title} href={item.href || "#"}>

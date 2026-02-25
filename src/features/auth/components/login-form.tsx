@@ -1,9 +1,9 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import * as z from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -21,6 +21,7 @@ interface ILoginFormProps {
 }
 
 export const LoginForm = ({ method, setMethod }: ILoginFormProps) => {
+  const router = useRouter();
   const getLoginSchema = (method: TAuthMethod) =>
     z.object({
       email:
@@ -46,11 +47,20 @@ export const LoginForm = ({ method, setMethod }: ILoginFormProps) => {
     onSubmit: async ({ value }) => {
       try {
         const username = method === "email" ? value.email : value.phone_number;
-        await login({
+        const res = await login({
           username,
           password: value.password,
         });
+
+        if (res?.payload?.access_token) {
+          localStorage.setItem("accessToken", res.payload.access_token);
+          if (res.payload.refresh_token) {
+            localStorage.setItem("refreshToken", res.payload.refresh_token);
+          }
+        }
+
         toast.success("Đăng nhập thành công!");
+        router.push("/");
       } catch (error) {
         toast.error("Đăng nhập thất bại. Vui lòng kiểm tra lại.");
         console.error("Login error:", error);

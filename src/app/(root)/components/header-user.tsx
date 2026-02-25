@@ -1,6 +1,7 @@
 "use client";
 
 import { User } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/features/auth/hooks";
 import { cn } from "@/lib/utils";
@@ -30,17 +31,23 @@ export const HeaderUser = ({
     return (
       <Button variant="secondary" className={cn("gap-2", className)}>
         <User className="size-4" />
-        {showText && <span>{user.full_name}</span>}
-        {!showText && <span className="sr-only">{user.full_name}</span>}
+        {showText && <span>{user?.full_name || user?.phone_number}</span>}
+        {!showText && (
+          <span className="sr-only">
+            {user?.full_name || user?.phone_number}
+          </span>
+        )}
       </Button>
     );
   }
 
   return (
-    <Button variant="secondary" className={cn("gap-2", className)}>
-      <User className="size-4" />
-      {showText && <span>Đăng nhập</span>}
-      {!showText && <span className="sr-only">Đăng nhập</span>}
-    </Button>
+    <Link href="/auth">
+      <Button variant="secondary" className={cn("gap-2", className)}>
+        <User className="size-4" />
+        {showText && <span>Đăng nhập</span>}
+        {!showText && <span className="sr-only">Đăng nhập</span>}
+      </Button>
+    </Link>
   );
 };
