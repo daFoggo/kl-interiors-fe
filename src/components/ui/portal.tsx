@@ -6,6 +6,7 @@ const Portal = ({ className, ...props }: ComponentProps<"div">) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
 
     const originalStyle = window.getComputedStyle(document.body).overflow;

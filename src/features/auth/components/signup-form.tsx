@@ -12,7 +12,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useSignupMutation } from "../hooks";
+import { signupAction } from "../server";
 import type { TAuthMethod } from "../types";
 
 interface ISignupFormProps {
@@ -40,8 +40,6 @@ export const SignupForm = ({ method, setMethod }: ISignupFormProps) => {
         path: ["confirm_password"],
       });
 
-  const { signup } = useSignupMutation();
-
   const form = useForm({
     defaultValues: {
       email: "",
@@ -55,13 +53,20 @@ export const SignupForm = ({ method, setMethod }: ISignupFormProps) => {
     },
     onSubmit: async ({ value }) => {
       try {
-        await signup({
+        const res = await signupAction({
           email: value.email,
           phone_number: value.phone_number,
           full_name: value.full_name,
           password: value.password,
         });
-        toast.success("Đăng ký thành công!");
+
+        if (res.success) {
+          toast.success("Đăng ký thành công!");
+        } else {
+          toast.error(
+            res.message || "Đăng ký thất bại. Vui lòng kiểm tra lại.",
+          );
+        }
       } catch (error) {
         toast.error("Đăng ký thất bại. Vui lòng kiểm tra lại.");
         console.error("Signup error:", error);

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HeaderCategoryTabs } from "./header-category-tabs";
+import {
+  HeaderCategories,
+  HeaderCategoriesSkeleton,
+} from "./header-categories";
 import { HeaderLanguageSwitcher } from "./header-language-switcher";
-import { HeaderNav } from "./header-nav";
 import { HeaderSearch } from "./header-search";
 import { HeaderUser } from "./header-user";
 import { HeaderUserBookmarks } from "./header-user-bookmarks";
@@ -38,15 +39,6 @@ export const RootHeader = () => {
 
             {/* Right – Nav links + Bookmarks + User + Language + Mobile burger */}
             <div className="flex items-center gap-2 ml-auto">
-              {/* Nav links (desktop only) — client component for active state */}
-              <HeaderNav />
-
-              {/* Divider (desktop only) */}
-              <Separator
-                orientation="vertical"
-                className="my-2 hidden xl:block"
-              />
-
               {/* Bookmarks + User + Language (desktop only) */}
               <div className="hidden xl:flex items-center gap-2">
                 <Suspense fallback={<HeaderBookmarkSkeleton />}>
@@ -59,7 +51,21 @@ export const RootHeader = () => {
               </div>
 
               {/* Mobile burger */}
-              <RootHeaderMobile />
+              <RootHeaderMobile
+                headerUser={
+                  <Suspense fallback={<HeaderUserSkeleton />}>
+                    <HeaderUser className="w-full justify-start" showText />
+                  </Suspense>
+                }
+                headerUserBookmarks={
+                  <Suspense fallback={<HeaderBookmarkSkeleton />}>
+                    <HeaderUserBookmarks
+                      className="w-full justify-start"
+                      showText
+                    />
+                  </Suspense>
+                }
+              />
             </div>
           </div>
 
@@ -72,8 +78,8 @@ export const RootHeader = () => {
 
       {/*  Group 2: sticky Category Tab Bar */}
       <div className="sticky top-0 z-30 shadow-sm">
-        <Suspense fallback={<div className="h-10 w-full bg-primary" />}>
-          <HeaderCategoryTabs />
+        <Suspense fallback={<HeaderCategoriesSkeleton />}>
+          <HeaderCategories />
         </Suspense>
       </div>
     </header>

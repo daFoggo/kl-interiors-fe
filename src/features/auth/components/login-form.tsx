@@ -12,7 +12,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useLoginMutation } from "../hooks";
+import { loginAction } from "../server";
 import type { TAuthMethod } from "../types";
 
 interface ILoginFormProps {
@@ -34,7 +34,6 @@ export const LoginForm = ({ method, setMethod }: ILoginFormProps) => {
           : z.string(),
       password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự."),
     });
-  const { login } = useLoginMutation();
   const form = useForm({
     defaultValues: {
       email: "",
@@ -47,20 +46,20 @@ export const LoginForm = ({ method, setMethod }: ILoginFormProps) => {
     onSubmit: async ({ value }) => {
       try {
         const username = method === "email" ? value.email : value.phone_number;
-        const res = await login({
+        const res = await loginAction({
           username,
           password: value.password,
         });
 
-        if (res?.payload?.access_token) {
-          localStorage.setItem("accessToken", res.payload.access_token);
-          if (res.payload.refresh_token) {
-            localStorage.setItem("refreshToken", res.payload.refresh_token);
-          }
+        if (res.success) {
+          toast.success("Đăng nhập thành công!");
+          router.push("/");
+          router.refresh();
+        } else {
+          toast.error(
+            res.message || "Đăng nhập thất bại. Vui lòng kiểm tra lại.",
+          );
         }
-
-        toast.success("Đăng nhập thành công!");
-        router.push("/");
       } catch (error) {
         toast.error("Đăng nhập thất bại. Vui lòng kiểm tra lại.");
         console.error("Login error:", error);

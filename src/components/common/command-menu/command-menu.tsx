@@ -78,6 +78,7 @@ export const CommandMenu = () => {
   // Reset selected type when menu closes
   useEffect(() => {
     if (!open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedType(null);
     }
   }, [open]);

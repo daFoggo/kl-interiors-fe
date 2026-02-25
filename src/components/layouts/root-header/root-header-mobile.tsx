@@ -2,15 +2,19 @@
 
 import { MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Portal, PortalBackdrop } from "@/components/ui/portal";
 import { rootNavigation } from "@/constants/root-navigation";
 import { cn } from "@/lib/utils";
-import { HeaderUser } from "./header-user";
-import { HeaderUserBookmarks } from "./header-user-bookmarks";
 
-export const RootHeaderMobile = () => {
+export const RootHeaderMobile = ({
+  headerUser,
+  headerUserBookmarks,
+}: {
+  headerUser: ReactNode;
+  headerUserBookmarks: ReactNode;
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -52,8 +56,8 @@ export const RootHeaderMobile = () => {
             </div>
 
             <div className="mt-4 flex flex-col gap-2">
-              <HeaderUserBookmarks className="w-full justify-start" showText />
-              <HeaderUser className="w-full justify-start" showText />
+              {headerUserBookmarks}
+              {headerUser}
             </div>
           </div>
         </Portal>

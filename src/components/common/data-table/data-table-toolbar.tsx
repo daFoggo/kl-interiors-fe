@@ -17,6 +17,7 @@ import {
   InputGroupInput,
   InputGroupText,
 } from "@/components/ui/input-group";
+import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 import { cn } from "@/lib/utils";
 import { DataTableDateFilter } from "./data-table-date-filter";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
@@ -204,15 +205,9 @@ function DataTableToolbarInput<TData>({
     setValue(filterValue);
   }, [filterValue]); // React to external changes (e.g. Reset)
 
-  const debouncedSetFilter = useMemo(() => {
-    let timeoutId: NodeJS.Timeout;
-    return (val: string) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        column.setFilterValue(val);
-      }, debounceMs);
-    };
-  }, [column, debounceMs]);
+  const debouncedSetFilter = useDebouncedCallback((val: string) => {
+    column.setFilterValue(val);
+  }, debounceMs);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;

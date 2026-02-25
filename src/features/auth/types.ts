@@ -19,7 +19,8 @@ export interface ILoginPayload {
 
 export interface ILoginResponse {
   success: boolean;
-  payload: {
+  message?: string;
+  payload?: {
     access_token: string;
     refresh_token: string;
     token_type: string;
@@ -36,7 +37,8 @@ export interface ISignupPayload {
 
 export interface ISignupResponse {
   success: boolean;
-  payload: IUser;
+  message?: string;
+  payload?: IUser;
 }
 
 export interface IRefreshTokenPayload {
@@ -54,5 +56,6 @@ export interface IRefreshTokenResponse {
 
 export interface IMeResponse {
   success: boolean;
-  payload: IUser;
+  message?: string;
+  payload?: IUser;
 }
