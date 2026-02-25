@@ -17,14 +17,14 @@ const HeaderBookmarkSkeleton = () => <Skeleton className="size-9 rounded-md" />;
 
 export const RootHeader = () => {
   return (
-    <header className="w-full z-50">
+    <>
       {/*  Group 1: non-sticky  */}
-      <div className="w-full bg-background border-b border-border">
+      <header className="w-full z-50 bg-background border-b border-border">
         <div className="max-w-screen-2xl mx-auto px-4 md:px-8 xl:px-16">
           {/* Row 1: Search | Logo (absolutely centered) | Nav + Actions */}
           <div className="relative z-50 flex items-center h-14 md:h-16">
             {/* Left – Search (desktop) */}
-            <div className="hidden xl:flex flex-1 max-w-xs lg:max-w-sm">
+            <div className="hidden lg:flex flex-1 max-w-xs lg:max-w-sm">
               <HeaderSearch className="w-full" />
             </div>
 
@@ -70,11 +70,11 @@ export const RootHeader = () => {
           </div>
 
           {/* Mobile search row */}
-          <div className="xl:hidden pb-4">
+          <div className="lg:hidden pb-4">
             <HeaderSearch className="w-full" />
           </div>
         </div>
-      </div>
+      </header>
 
       {/*  Group 2: sticky Category Tab Bar */}
       <div className="sticky top-0 z-30 shadow-sm">
@@ -82,6 +82,6 @@ export const RootHeader = () => {
           <HeaderCategories />
         </Suspense>
       </div>
-    </header>
+    </>
   );
 };
