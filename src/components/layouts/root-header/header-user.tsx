@@ -2,7 +2,6 @@
 
 import { LogOut, User } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,34 +11,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useLogout, useUser } from "@/features/auth";
 import { cn } from "@/lib/utils";
 
-export const HeaderUser = ({
-  className,
-  showText,
-}: {
+interface IHeaderUserProps {
   className?: string;
   showText?: boolean;
-}) => {
+}
+
+export const HeaderUser = ({ className, showText }: IHeaderUserProps) => {
   const { user, isLoading } = useUser();
   const { logout } = useLogout();
-  const router = useRouter();
-
-  const handleLogout = () => {
-    logout();
-    router.push("/auth");
-  };
 
   if (isLoading) {
     return (
-      <Button variant="secondary" className={cn("gap-2", className)} disabled>
-        <User className="size-4 animate-pulse" />
-        {showText && (
-          <span className="animate-pulse bg-muted rounded w-16 h-4"></span>
-        )}
-        {!showText && <span className="sr-only">Đang tải...</span>}
-      </Button>
+      <div className={cn("flex items-center gap-2", className)}>
+        <Skeleton className="size-9 rounded-md" />
+        {showText && <Skeleton className="h-4 w-20 rounded-md" />}
+      </div>
     );
   }
 
@@ -71,7 +61,7 @@ export const HeaderUser = ({
           <DropdownMenuGroup>
             <DropdownMenuItem
               className="justify-between cursor-pointer"
-              onClick={handleLogout}
+              onClick={logout}
             >
               <span>Đăng xuất</span>
               <LogOut className="size-4" />

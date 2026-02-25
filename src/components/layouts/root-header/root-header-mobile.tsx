@@ -2,7 +2,7 @@
 
 import { MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Portal, PortalBackdrop } from "@/components/ui/portal";
 import { rootNavigation } from "@/constants/root-navigation";
@@ -11,10 +11,10 @@ import { HeaderUser } from "./header-user";
 import { HeaderUserBookmarks } from "./header-user-bookmarks";
 
 export const RootHeaderMobile = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="lg:hidden flex items-center gap-2">
+    <div className="xl:hidden flex items-center gap-2">
       <Button
         aria-controls="mobile-menu"
         aria-expanded={open}
@@ -22,23 +22,18 @@ export const RootHeaderMobile = () => {
         onClick={() => setOpen(!open)}
         size="icon"
         variant="outline"
+        className="size-8"
       >
-        {open ? (
-          <XIcon className="size-4.5" />
-        ) : (
-          <MenuIcon className="size-4.5" />
-        )}
+        {open ? <XIcon className="size-4" /> : <MenuIcon className="size-4" />}
       </Button>
+
       {open && (
-        <Portal
-          className="top-[60px] md:top-16 z-50 lg:hidden"
-          id="mobile-menu"
-        >
+        <Portal className="sm:top-40 top-36 xl:hidden" id="mobile-menu">
           <PortalBackdrop onClick={() => setOpen(false)} />
           <div
             className={cn(
-              "data-[slot=open]:zoom-in-95 ease-out data-[slot=open]:animate-in",
-              "size-full p-4 bg-background flex flex-col gap-6",
+              "data-[slot=open]:zoom-in-97 ease-out data-[slot=open]:animate-in",
+              "w-full p-4",
             )}
             data-slot={open ? "open" : "closed"}
           >
@@ -55,7 +50,8 @@ export const RootHeaderMobile = () => {
                 </Button>
               ))}
             </div>
-            <div className="flex flex-col gap-4">
+
+            <div className="mt-4 flex flex-col gap-2">
               <HeaderUserBookmarks className="w-full justify-start" showText />
               <HeaderUser className="w-full justify-start" showText />
             </div>

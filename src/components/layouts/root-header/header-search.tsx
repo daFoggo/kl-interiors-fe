@@ -1,11 +1,10 @@
+import { SearchIcon } from "lucide-react";
 import {
   InputGroup,
-  InputGroupInput,
   InputGroupAddon,
+  InputGroupInput,
 } from "@/components/ui/input-group";
 import { cn } from "@/lib/utils";
-import { SearchIcon } from "lucide-react";
-import React from "react";
 
 export const HeaderSearch = ({ className }: { className?: string }) => {
   return (
