@@ -10,6 +10,12 @@ export interface IUser {
   updated_at: string;
 }
 
+export interface ITokenInfo {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+}
+
 export type TAuthMethod = "email" | "phone";
 
 export interface ILoginPayload {
@@ -20,11 +26,7 @@ export interface ILoginPayload {
 export interface ILoginResponse {
   success: boolean;
   message?: string;
-  payload?: {
-    access_token: string;
-    refresh_token: string;
-    token_type: string;
-  };
+  payload?: ITokenInfo;
 }
 
 export interface ISignupPayload {
@@ -47,11 +49,7 @@ export interface IRefreshTokenPayload {
 
 export interface IRefreshTokenResponse {
   success: boolean;
-  payload: {
-    access_token: string;
-    refresh_token: string;
-    token_type: string;
-  };
+  payload: ITokenInfo;
 }
 
 export interface IMeResponse {

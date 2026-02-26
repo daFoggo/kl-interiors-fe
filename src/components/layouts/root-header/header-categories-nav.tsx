@@ -3,12 +3,12 @@
 import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import type { ICategory } from "@/features/categories";
+import type { IProductCategory } from "@/features/product-categories";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
 interface HeaderCategoriesNavProps {
-  categories: ICategory[];
+  categories: IProductCategory[];
 }
 
 export const HeaderCategoriesNav = ({

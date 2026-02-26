@@ -30,8 +30,6 @@ export const authApi = {
       .then((res) => res.json());
   },
 
-  // Refresh token is handled implicitly inside authed-ky interceptors,
-  // but if needed to call manually:
   refresh: async (
     refreshToken: string,
   ): Promise<{

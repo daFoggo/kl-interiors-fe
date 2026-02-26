@@ -1,11 +1,11 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { getPopularCategories } from "@/features/categories/server";
+import { getPopularProductCategories } from "@/features/product-categories";
 import { HeaderCategoriesNav } from "./header-categories-nav";
 
 const TAB_LIMIT = 8;
 
 export const HeaderCategories = async () => {
-  const res = await getPopularCategories(TAB_LIMIT);
+  const res = await getPopularProductCategories(TAB_LIMIT);
   const categories = res.success ? res.payload : [];
 
   return <HeaderCategoriesNav categories={categories} />;
