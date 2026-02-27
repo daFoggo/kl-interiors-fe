@@ -8,3 +8,8 @@ export interface IProductType {
   created_at?: string;
   updated_at?: string;
 }
+
+export interface IGetPageProductTypesResponse {
+  success: boolean;
+  payload: IProductType[];
+}

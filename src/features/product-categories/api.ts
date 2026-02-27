@@ -12,12 +12,13 @@ import type {
 
 export const PRODUCT_CATEGORIES_ENDPOINTS = {
   GET_PAGE: "product-categories",
-  GET_BY_ID: (categoryId: string) => `product-categories/${categoryId}`,
+  GET_BY_ID: (category_id: string) => `product-categories/${category_id}`,
   POPULAR: "product-categories/popular",
   CREATE: "product-categories",
-  UPDATE: (categoryId: string) => `product-categories/${categoryId}`,
-  DELETE: (categoryId: string) => `product-categories/${categoryId}`,
-  PRODUCTS: (categoryId: string) => `product-categories/${categoryId}/products`,
+  UPDATE: (category_id: string) => `product-categories/${category_id}`,
+  DELETE: (category_id: string) => `product-categories/${category_id}`,
+  PRODUCTS: (category_id: string) =>
+    `product-categories/${category_id}/products`,
 } as const;
 
 export const productCategoriesApi = {
@@ -45,33 +46,33 @@ export const productCategoriesApi = {
   },
 
   getProductCategory: async (
-    categoryId: string,
+    category_id: string,
   ): Promise<ICreateProductCategoryResponse> => {
     return await publicApiClient
-      .get(PRODUCT_CATEGORIES_ENDPOINTS.GET_BY_ID(categoryId))
+      .get(PRODUCT_CATEGORIES_ENDPOINTS.GET_BY_ID(category_id))
       .json<ICreateProductCategoryResponse>();
   },
 
   updateProductCategory: async (
-    categoryId: string,
+    category_id: string,
     payload: IUpdateProductCategoryPayload,
   ): Promise<IUpdateProductCategoryResponse> => {
     return await authedApiClient
-      .put(PRODUCT_CATEGORIES_ENDPOINTS.UPDATE(categoryId), { json: payload })
+      .put(PRODUCT_CATEGORIES_ENDPOINTS.UPDATE(category_id), { json: payload })
       .json<IUpdateProductCategoryResponse>();
   },
 
   deleteProductCategory: async (
-    categoryId: string,
+    category_id: string,
   ): Promise<IDeleteProductCategoryResponse> => {
     return await authedApiClient
-      .delete(PRODUCT_CATEGORIES_ENDPOINTS.DELETE(categoryId))
+      .delete(PRODUCT_CATEGORIES_ENDPOINTS.DELETE(category_id))
       .json<IDeleteProductCategoryResponse>();
   },
 
-  getProductCategoryProducts: async (categoryId: string) => {
+  getProductCategoryProducts: async (category_id: string) => {
     return await publicApiClient
-      .get(PRODUCT_CATEGORIES_ENDPOINTS.PRODUCTS(categoryId))
+      .get(PRODUCT_CATEGORIES_ENDPOINTS.PRODUCTS(category_id))
       .json();
   },
 };

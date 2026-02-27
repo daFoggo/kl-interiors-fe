@@ -20,7 +20,7 @@ export const RootHeader = () => {
     <>
       {/*  Group 1: non-sticky  */}
       <header className="w-full z-50 bg-background border-b border-border">
-        <div className="max-w-screen-2xl mx-auto px-4 md:px-8 xl:px-16">
+        <div className=" mx-auto px-4 md:px-8 xl:px-16">
           {/* Row 1: Search | Logo (absolutely centered) | Nav + Actions */}
           <div className="relative z-50 flex items-center h-14 md:h-16">
             {/* Left – Search (desktop) */}

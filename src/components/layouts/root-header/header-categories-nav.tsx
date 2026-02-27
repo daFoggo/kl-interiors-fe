@@ -23,7 +23,7 @@ export const HeaderCategoriesNav = ({
 
   return (
     <div className="w-full bg-primary">
-      <div className="max-w-screen-2xl mx-auto px-4 md:px-8 xl:px-16">
+      <div className=" mx-auto px-4 md:px-8 xl:px-16">
         <div className="flex items-center overflow-hidden">
           <div className="flex-1 min-w-0 flex items-center overflow-x-auto overflow-y-hidden scrollbar-hide">
             {categories.map((cat) => (
